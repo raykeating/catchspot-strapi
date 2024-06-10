@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "anglers",
+  "info": {
+    "singularName": "angler",
+    "pluralName": "anglers",
+    "displayName": "Angler"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "bio": {
+      "type": "text"
+    },
+    "profilePicture": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "anglerProfile"
+    }
+  }
+}
