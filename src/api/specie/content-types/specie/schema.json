@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "species",
+  "info": {
+    "singularName": "specie",
+    "pluralName": "species",
+    "displayName": "Species",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "latinName": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "size": {
+      "type": "blocks"
+    },
+    "preferredHabitat": {
+      "type": "blocks"
+    },
+    "diet": {
+      "type": "blocks"
+    },
+    "conservationStatus": {
+      "type": "enumeration",
+      "enum": [
+        "Extinct",
+        "Extinct in the Wild",
+        "Critically Endangered",
+        "Endangered",
+        "Vulnerable",
+        "Near Threatened",
+        "Least Concern"
+      ]
+    },
+    "geographicRange": {
+      "type": "json"
+    }
+  }
+}

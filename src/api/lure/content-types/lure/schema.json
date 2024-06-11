@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "lures",
+  "info": {
+    "singularName": "lure",
+    "pluralName": "lures",
+    "displayName": "Lure"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "productLink": {
+      "type": "string"
+    }
+  }
+}

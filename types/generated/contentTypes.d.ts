@@ -362,43 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiAnglerAngler extends Schema.CollectionType {
-  collectionName: 'anglers';
-  info: {
-    singularName: 'angler';
-    pluralName: 'anglers';
-    displayName: 'Angler';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    firstName: Attribute.String & Attribute.Required;
-    lastName: Attribute.String & Attribute.Required;
-    bio: Attribute.Text;
-    profilePicture: Attribute.Media;
-    user: Attribute.Relation<
-      'api::angler.angler',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::angler.angler',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::angler.angler',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -512,6 +475,50 @@ export interface PluginUploadFolder extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::upload.folder',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
       'oneToOne',
       'admin::user'
     > &
@@ -674,43 +681,157 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiAnglerAngler extends Schema.CollectionType {
+  collectionName: 'anglers';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
+    singularName: 'angler';
+    pluralName: 'anglers';
+    displayName: 'Angler';
   };
   options: {
     draftAndPublish: false;
   };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: Attribute.String & Attribute.Unique;
+    firstName: Attribute.String & Attribute.Required;
+    lastName: Attribute.String & Attribute.Required;
+    bio: Attribute.Text;
+    profilePicture: Attribute.Media;
+    user: Attribute.Relation<
+      'api::angler.angler',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    catches: Attribute.Relation<
+      'api::angler.angler',
+      'oneToMany',
+      'api::catch.catch'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::angler.angler',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::angler.angler',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCatchCatch extends Schema.CollectionType {
+  collectionName: 'catches';
+  info: {
+    singularName: 'catch';
+    pluralName: 'catches';
+    displayName: 'Catch';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    angler: Attribute.Relation<
+      'api::catch.catch',
+      'manyToOne',
+      'api::angler.angler'
+    >;
+    species: Attribute.Relation<
+      'api::catch.catch',
+      'oneToOne',
+      'api::specie.specie'
+    >;
+    lure: Attribute.Relation<'api::catch.catch', 'oneToOne', 'api::lure.lure'>;
+    length: Attribute.Decimal;
+    location: Attribute.JSON &
+      Attribute.CustomField<'plugin::location-field.location'>;
+    image: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::catch.catch',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::catch.catch',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiLureLure extends Schema.CollectionType {
+  collectionName: 'lures';
+  info: {
+    singularName: 'lure';
+    pluralName: 'lures';
+    displayName: 'Lure';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    productLink: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::lure.lure', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::lure.lure', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSpecieSpecie extends Schema.CollectionType {
+  collectionName: 'species';
+  info: {
+    singularName: 'specie';
+    pluralName: 'species';
+    displayName: 'Species';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    latinName: Attribute.String & Attribute.Required;
+    image: Attribute.Media & Attribute.Required;
+    description: Attribute.Blocks;
+    size: Attribute.Blocks;
+    preferredHabitat: Attribute.Blocks;
+    diet: Attribute.Blocks;
+    conservationStatus: Attribute.Enumeration<
+      [
+        'Extinct',
+        'Extinct in the Wild',
+        'Critically Endangered',
+        'Endangered',
+        'Vulnerable',
+        'Near Threatened',
+        'Least Concern'
+      ]
+    >;
+    geographicRange: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::specie.specie',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::specie.specie',
       'oneToOne',
       'admin::user'
     > &
@@ -728,13 +849,16 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::angler.angler': ApiAnglerAngler;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::angler.angler': ApiAnglerAngler;
+      'api::catch.catch': ApiCatchCatch;
+      'api::lure.lure': ApiLureLure;
+      'api::specie.specie': ApiSpecieSpecie;
     }
   }
 }
