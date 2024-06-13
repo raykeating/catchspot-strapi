@@ -54,6 +54,11 @@
     },
     "geographicRange": {
       "type": "json"
+    },
+    "isFreshwater": {
+      "type": "boolean",
+      "default": true,
+      "required": true
     }
   }
 }
