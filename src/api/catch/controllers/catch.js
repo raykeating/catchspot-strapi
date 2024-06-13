@@ -19,15 +19,14 @@ module.exports = createCoreController("api::catch.catch", {
     // get the current user
     const user = ctx.state.user;
 
-    // get the angler
-    const angler = await strapi.query("api::angler.angler").findOne({
-      user: user.id,
+    const populatedUser = await strapi.entityService.findOne("plugin::users-permissions.user", user.id, {
+      populate: ["anglerProfile"]
     });
 
-    // add the user to the angler
+    // add the angler to the catch
     await strapi.entityService.update("api::catch.catch", result.data.id, {
       data: {
-        angler: angler.id
+        angler: populatedUser.anglerProfile.id
       },
     });
 
